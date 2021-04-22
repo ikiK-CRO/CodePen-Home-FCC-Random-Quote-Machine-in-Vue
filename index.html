@@ -29,6 +29,8 @@
       #main {
         width: 50vw;
         height: 40vh;
+        min-width: 35vw;
+        min-height: 25vw;
         border-radius: 10px;
         border: 1px solid black;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -88,9 +90,19 @@
         ["#7CB4B8", "#CAFE48", "#70F8BA"],
         ["#FFFFFF", "#FF8427", "#FFC800"],
         ["#F29CA3", "#F7CACD", "#DE4D86"],
+        ["#EEE2DF", "#EED7C5", "#C89F9C"],
+        ["#F29CA3", "#76F7BF", "#5FDD9D"],
+        ["#75B9BE", "#D0D6B5", "#F9B5AC"],
+        ["#A2D6F9", "#FCF300", "#FFC600"]
       ];
-      let palette = colors[Math.floor(Math.random() * colors.length)];
-
+      const randomColor = () => {
+        let palette = colors[Math.floor(Math.random() * colors.length)];
+        document.querySelector("#main").style.backgroundColor = palette[1];
+        document.querySelector("body").style.backgroundColor = palette[2];
+        console.log(palette[0])
+        return  palette[0];
+      };
+      randomColor();
       var app = new Vue({
         el: "#app",
         data: {
@@ -101,7 +113,7 @@
         el: "#new-quote",
         data: {
           textColor: "black",
-          bgCol: palette[0],
+          bgCol: randomColor(),
         },
         methods: {
           newQuote: function () {
@@ -111,12 +123,7 @@
           },
         },
       });
-      const randomColor = () => {
-        palette = colors[Math.floor(Math.random() * colors.length)];
-        document.querySelector("#main").style.backgroundColor = palette[1];
-        document.querySelector("body").style.backgroundColor = palette[2];
-      };
-      randomColor();
+
     </script>
   </body>
 </html>
