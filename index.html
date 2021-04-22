@@ -93,14 +93,14 @@
         ["#EEE2DF", "#EED7C5", "#C89F9C"],
         ["#F29CA3", "#76F7BF", "#5FDD9D"],
         ["#75B9BE", "#D0D6B5", "#F9B5AC"],
-        ["#A2D6F9", "#FCF300", "#FFC600"]
+        ["#A2D6F9", "#FCF300", "#FFC600"],
       ];
+      let palette;
       const randomColor = () => {
-        let palette = colors[Math.floor(Math.random() * colors.length)];
+        palette = colors[Math.floor(Math.random() * colors.length)];
         document.querySelector("#main").style.backgroundColor = palette[1];
         document.querySelector("body").style.backgroundColor = palette[2];
-        console.log(palette[0])
-        return  palette[0];
+        return palette[0];
       };
       randomColor();
       var app = new Vue({
@@ -113,17 +113,15 @@
         el: "#new-quote",
         data: {
           textColor: "black",
-          bgCol: randomColor(),
+          bgCol: palette[0],
         },
         methods: {
           newQuote: function () {
-            randomColor();
+            this.bgCol = randomColor();
             console.log(obj);
-
           },
         },
       });
-
     </script>
   </body>
 </html>
