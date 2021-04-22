@@ -65,7 +65,7 @@
             />
           </svg>
         </div>
-        <div class="margin" id="text"></div>
+        <h3 class="margin" id="quote"></h3>
         <button
           v-on:click="newQuote"
           type="button"
@@ -81,9 +81,20 @@
     <script>
       const api = "https://api.jsonbin.io/b/6080dabc56c62a0c0e8a1bcf";
       let obj;
-      fetch(api)
-        .then((response) => response.json())
-        .then((res) => (obj = res));
+
+      async function radnomQuote() {
+        return await fetch(api)
+          .then((response) => response.json())
+          .then((res) => {
+            return res.quotes[Math.floor(Math.random() * res.quotes.length)]
+              .quote;
+          });
+      }
+
+      async function asyncGuote() {
+        const result = await radnomQuote();
+        document.querySelector("#quote").textContent = result;
+      }
 
       const colors = [
         ["#B26700", "#FFC53A", "#FAFF81"],
@@ -93,7 +104,7 @@
         ["#EEE2DF", "#EED7C5", "#C89F9C"],
         ["#F29CA3", "#76F7BF", "#5FDD9D"],
         ["#75B9BE", "#D0D6B5", "#F9B5AC"],
-        ["#A2D6F9", "#FCF300", "#FFC600"],
+        ["#A2D6F9", "#FCF300", "#FFC600"]
       ];
       let palette;
       const randomColor = () => {
@@ -118,8 +129,17 @@
         methods: {
           newQuote: function () {
             this.bgCol = randomColor();
-            console.log(obj);
+            asyncGuote()
           },
+        },
+      });
+      var app = new Vue({
+        el: "#quote",
+        data: {
+          quote: "",
+        },
+        created() {
+          asyncGuote()
         },
       });
     </script>
