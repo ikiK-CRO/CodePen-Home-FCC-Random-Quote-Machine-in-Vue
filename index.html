@@ -18,16 +18,15 @@
       * {
         font-family: "Orelega One", cursive;
       }
-      html,
+
       body {
         height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: antiquewhite;
+        background-color: #a2d3c2;
       }
       #main {
-        background-color: beige;
         width: 50vw;
         height: 40vh;
         border-radius: 10px;
@@ -49,7 +48,7 @@
   <body>
     <div id="main">
       <div id="quote-box">
-        <h1 id="app" class="margin">{{ message }}</h1>
+        <h1 id="app" class="margin">{{ title }}</h1>
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +68,8 @@
           v-on:click="newQuote"
           type="button"
           id="new-quote"
-          class="btn btn-primary margin .btn-lg"
+          class="btn btn-outline-danger margin .btn-lg"
+          v-bind:style="{ color: textColor, backgroundColor: bgCol}"
         >
           NEW QUOTE
         </button>
@@ -77,22 +77,46 @@
     </div>
 
     <script>
+      const api = "https://api.jsonbin.io/b/6080dabc56c62a0c0e8a1bcf";
+      let obj;
+      fetch(api)
+        .then((response) => response.json())
+        .then((res) => (obj = res));
+
+      const colors = [
+        ["#B26700", "#FFC53A", "#FAFF81"],
+        ["#7CB4B8", "#CAFE48", "#70F8BA"],
+        ["#FFFFFF", "#FF8427", "#FFC800"],
+        ["#F29CA3", "#F7CACD", "#DE4D86"],
+      ];
+      let palette = colors[Math.floor(Math.random() * colors.length)];
+
       var app = new Vue({
         el: "#app",
         data: {
-          message: "Random Quote Machine",
+          title: "Random Quote Machine",
         },
       });
       var btn = new Vue({
         el: "#new-quote",
+        data: {
+          textColor: "black",
+          bgCol: palette[0],
+        },
         methods: {
           newQuote: function () {
-            console.log(true);
+            randomColor();
+            console.log(obj);
+
           },
         },
       });
-
-      //https://api.jsonbin.io/b/6080ce0956c62a0c0e8a1540
+      const randomColor = () => {
+        palette = colors[Math.floor(Math.random() * colors.length)];
+        document.querySelector("#main").style.backgroundColor = palette[1];
+        document.querySelector("body").style.backgroundColor = palette[2];
+      };
+      randomColor();
     </script>
   </body>
 </html>
