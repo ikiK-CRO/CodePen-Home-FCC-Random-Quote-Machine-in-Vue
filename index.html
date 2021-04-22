@@ -180,9 +180,6 @@
           text: "",
           textOpacity: 1,
         },
-        created() {
-          asyncGuote(); 
-        },
       });
       var authorEl = new Vue({
         el: "#author",
@@ -190,10 +187,9 @@
           author: "",
           authorOpacity: 1,
         },
-        created() {
-          asyncGuote(); 
-        },
       });
+
+      asyncGuote(); 
     </script>
   </body>
 </html>
