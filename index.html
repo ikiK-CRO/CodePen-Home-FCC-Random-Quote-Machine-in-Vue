@@ -127,11 +127,9 @@
 
       async function asyncGuote() {
         const result = await radnomQuote();
-        textEl.textOpacity = 0
+          textEl.textOpacity = 0
           authorEl.authorOpacity  = 0
         setTimeout(function () {
-          document.querySelector("#author").style.opacity = 1;
-          document.querySelector("#text").style.opacity = 1;
           textEl.textOpacity = 1
           authorEl.authorOpacity  = 1
           textEl.text=result.quote;
