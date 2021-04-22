@@ -28,22 +28,38 @@
       }
       #main {
         width: 50vw;
-        height: 40vh;
-        min-width: 35vw;
-        min-height: 25vw;
+        height: 60vh;
+        min-width: 50vw;
+        min-height: 60vh;
         border-radius: 10px;
         border: 1px solid black;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       }
       #quote-box {
-        height: 400px;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
       }
       .margin {
-        margin: 30px;
+        margin: 20px;
+      }
+      #author {
+        display: flex;
+        flex-wrap: wrap;
+        align-self: flex-end;
+      }
+      #twitter{
+        display: flex;
+        flex-wrap: wrap;
+        align-self: flex-start;
+        margin-left: 20%;
+      }
+      #text,
+      #author {
+        opacity: 0;
+        transition: opacity 0.5s;
       }
     </style>
   </head>
@@ -65,7 +81,25 @@
             />
           </svg>
         </div>
-        <h3 class="margin" id="quote"></h3>
+        <h3 class="margin" id="text"></h3>
+        <div id="author" class="margin"></div>
+        <div id="twitter"  class="margin">
+          <a id="tweet-quote"  href="twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer"> 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            fill="currentColor"
+            class="bi bi-twitter"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
+            />
+          </a>
+
+          </svg>
+        </div>
         <button
           v-on:click="newQuote"
           type="button"
@@ -86,14 +120,20 @@
         return await fetch(api)
           .then((response) => response.json())
           .then((res) => {
-            return res.quotes[Math.floor(Math.random() * res.quotes.length)]
-              .quote;
+            return res.quotes[Math.floor(Math.random() * res.quotes.length)];
           });
       }
 
       async function asyncGuote() {
         const result = await radnomQuote();
-        document.querySelector("#quote").textContent = result;
+        document.querySelector("#author").style.opacity = 0;
+        document.querySelector("#text").style.opacity = 0;
+        setTimeout(function () {
+          document.querySelector("#author").style.opacity = 1;
+          document.querySelector("#text").style.opacity = 1;
+          document.querySelector("#text").textContent = result.quote;
+          document.querySelector("#author").textContent = result.author;
+        }, 500);
       }
 
       const colors = [
@@ -104,7 +144,7 @@
         ["#EEE2DF", "#EED7C5", "#C89F9C"],
         ["#F29CA3", "#76F7BF", "#5FDD9D"],
         ["#75B9BE", "#D0D6B5", "#F9B5AC"],
-        ["#A2D6F9", "#FCF300", "#FFC600"]
+        ["#A2D6F9", "#FCF300", "#FFC600"],
       ];
       let palette;
       const randomColor = () => {
@@ -129,17 +169,17 @@
         methods: {
           newQuote: function () {
             this.bgCol = randomColor();
-            asyncGuote()
+            asyncGuote();
           },
         },
       });
-      var app = new Vue({
-        el: "#quote",
+      var btn = new Vue({
+        el: "#text",
         data: {
-          quote: "",
+          text: "",
         },
         created() {
-          asyncGuote()
+          asyncGuote();
         },
       });
     </script>
